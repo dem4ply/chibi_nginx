@@ -30,6 +30,6 @@ setup(
     name='chibi_nginx',
     packages=find_packages(include=['chibi_nginx', 'chibi_nginx.*']),
     url='https://github.com/dem4ply/chibi_nginx',
-    version='0.0.1',
+    version='0.1.0',
     zip_safe=False,
 )
