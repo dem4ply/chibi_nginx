@@ -13,19 +13,26 @@ def parse( content ):
 
 
 def to_string( d, tabs=0 ):
-    result = []
+    return "\n".join( iter_to_string( d, tabs=tabs ) )
+
+
+def iter_to_string( d, tabs=0 ):
     t = '\t' * tabs
     for k, v in d.items():
         if isinstance( v, dict ):
-            result.append( f'{t}{k}' + ' {' )
-            result.append( to_string( v, tabs=tabs + 1 ) )
-            result.append( f'{t}' + '}' )
+            yield f'{t}{k}' + ' {'
+            yield from iter_to_string( v, tabs=tabs + 1 )
+            yield f'{t}' + '}'
         elif isinstance( v, list ):
             for vv in v:
-                result.append( f'{t}{k} {vv};' )
+                if isinstance( vv, dict ):
+                    yield f'{t}{k}' + ' {'
+                    yield from iter_to_string( vv, tabs + 1 )
+                    yield f'{t}' + '}'
+                else:
+                    yield f'{t}{k} {vv};'
         else:
-            result.append( f'{t}{k} {v};' )
-    return "\n".join( result )
+            yield f'{t}{k} {v};'
 
 
 def parse_internal( content_iter ):
