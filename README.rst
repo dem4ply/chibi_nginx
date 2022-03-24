@@ -14,8 +14,6 @@ chibi_nginx
         :alt: Documentation Status
 
 
-
-
 python lib for parse nginx conf files
 
 
@@ -23,7 +21,61 @@ python lib for parse nginx conf files
 * Documentation: https://chibi-nginx.readthedocs.io.
 
 
+=======
+Install
+=======
+
+
+.. code-block:: bash
+
+	pip install chibi-nginx
+
+
+=====
+Usage
+=====
+
+
+.. code-block:: bash
+
+	cat > /etc/nginx/sites_available/default.conf << 'endmsg'
+	# vi: set ft=nginx:
+	server {
+			server_name $hostname nginx;
+			listen 80;
+
+			access_log /var/log/nginx/default_access.log;
+			error_log /var/log/nginx/default_error.log;
+
+			root /var/www/default/;
+			index index.html;
+	}
+	endmsg
+
+
+.. code-block:: python
+
+	from chibi_nginx import Chibi_nginx
+
+	tmp = Chibi_nginx( '/etc/nginx/sites_available/default.conf' )
+	result = tmp.read()
+	expected = {
+		'server': {
+			'server_name': '$hostname nginx',
+			'listen': '80',
+			'access_log': '/var/log/nginx/default_access.log',
+			'error_log': '/var/log/nginx/default_error.log',
+			'root': '/var/www/default/',
+			'index': 'index.html'}
+	}
+	assert result == expected
+	result[ 'server' ][ 'root' ] = '/home/user/default_site/'
+	tmp.write( result )
+	new_result = tmp.read()
+	assert new_result[ 'server' ][ 'root' ] = '/home/user/default_site/'
+
+
 Features
 --------
 
-* TODO
+* read and write config files of nginx
