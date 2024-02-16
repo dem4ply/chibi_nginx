@@ -1,0 +1,4 @@
+Sphinx
+sphinxcontrib-plantuml
+rst2pdf
+sphinx-rtd-theme

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from chibi.atlas.multi import Chibi_atlas_multi
+from chibi_atlas.multi import Chibi_atlas_multi
 
 
 def parse( content ):
