@@ -31,6 +31,7 @@ http {
 	server {
 		listen 80 default_server;
 		return 444;
+		internal;
 	}
 
 	include /etc/nginx/sites_enabled/*;
@@ -57,6 +58,7 @@ http {
 	server {
 		listen 80 default_server;
 		return 444;
+		internal;
 	}
 }"""
 
@@ -76,7 +78,8 @@ nginx_expected = {
         'sendfile': 'off',
         'server': {
             'listen': '80 default_server',
-            'return': '444'
+            'return': '444',
+            'internal': True
         }
     },
     'worker_processes': '2',
@@ -122,7 +125,7 @@ class Test_chibi_nginx_file( TestCase ):
                 'keepalive_timeout': '65',
                 'sendfile': 'off',
                 'server': {
-                    'listen': '80 default_server', 'return': '444'
+                    'listen': '80 default_server', 'return': '444', 'internal': True
                 }
             },
             'worker_processes': '2',
