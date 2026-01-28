@@ -5,7 +5,7 @@ from chibi_nginx.nginx import parse, to_string
 
 __author__ = """dem4ply"""
 __email__ = 'dem4ply@gmail.com'
-__version__ = '0.2.2'
+__version__ = '1.0.0'
 
 
 class Chibi_nginx( Chibi_file ):
