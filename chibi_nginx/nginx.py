@@ -29,11 +29,11 @@ def iter_to_string( d, tabs=0 ):
                     yield f'{t}{k}' + ' {'
                     yield from iter_to_string( vv, tabs + 1 )
                     yield f'{t}' + '}'
-                elif isinstance( vv, bool ):
-                    if vv:
-                        yield f'{t}{k};'
                 else:
                     yield f'{t}{k} {vv};'
+        elif isinstance( v, bool ):
+            if v:
+                yield f'{t}{k};'
         else:
             yield f'{t}{k} {v};'
 
