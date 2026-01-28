@@ -147,6 +147,10 @@ class Test_chibi_nginx( unittest.TestCase ):
         result = to_string( data )
         self.assertEqual( result, nginx_to_string_expected )
 
+    def test_to_string_should_work_false(self):
+        result = to_string( nginx_expected_false )
+        self.assertEqual( result, nginx_to_string_expected_false )
+
 
 class Test_chibi_nginx_file( TestCase ):
     def setUp( self ):
