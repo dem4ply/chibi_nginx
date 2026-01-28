@@ -86,26 +86,27 @@ nginx_expected = {
     'worker_rlimit_nofile': '30000'
 }
 
-nginx_to_string_expected_false = """worker_processes 2;
-worker_rlimit_nofile 30000;
-events {
-	worker_connections 10000;
+nginx_to_string_expected_false = """events {
 	accept_mutex off;
+	worker_connections 10000;
 }
 http {
+	access_log /var/log/nginx/access.log upstream_time;
+	default_type json;
+	error_log /var/log/nginx/error.log;
 	include /etc/nginx/conf.d/*.conf;
 	include mime.types;
 	include /etc/nginx/sites_enabled/*;
-	default_type json;
-	sendfile off;
 	keepalive_timeout 65;
-	access_log /var/log/nginx/access.log upstream_time;
-	error_log /var/log/nginx/error.log;
+	sendfile off;
 	server {
 		listen 80 default_server;
 		return 444;
 	}
-}"""
+}
+worker_processes 2;
+worker_rlimit_nofile 30000;"""
+
 nginx_expected_false = {
     'events': {
         'accept_mutex': 'off', 'worker_connections': '10000'
