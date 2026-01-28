@@ -59,6 +59,8 @@ def clean_value( content ):
     if len( content ) == 1:
         result = content[0]
         result = result.rstrip( ';' )
-    else:
+    elif len( content ) == 0:
         return True
+    else:
+        raise NotImplementedError()
     return result
