@@ -2,6 +2,11 @@
 History
 =======
 
+0.3.0 (2026-01-28)
+------------------
+
+* @nbtm-sh add support for single word keywords
+
 0.2.1 (2022-03-24)
 ------------------
 

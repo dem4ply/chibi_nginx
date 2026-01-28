@@ -31,6 +31,9 @@ def iter_to_string( d, tabs=0 ):
                     yield f'{t}' + '}'
                 else:
                     yield f'{t}{k} {vv};'
+        elif isinstance( v, bool ):
+            if v:
+                yield f'{t}{k};'
         else:
             yield f'{t}{k} {v};'
 
@@ -48,7 +51,7 @@ def parse_internal( content_iter ):
             content = filter( bool, content )
             content = map( str.strip, content )
             content = list( content )
-            result[ content[0] ] = clean_value( content[1:] )
+            result[ content[0].rstrip( ';' ) ] = clean_value( content[1:] )
     return result
 
 
@@ -56,6 +59,8 @@ def clean_value( content ):
     if len( content ) == 1:
         result = content[0]
         result = result.rstrip( ';' )
+    elif len( content ) == 0:
+        return True
     else:
         raise NotImplementedError()
     return result

@@ -31,6 +31,7 @@ http {
 	server {
 		listen 80 default_server;
 		return 444;
+		internal;
 	}
 
 	include /etc/nginx/sites_enabled/*;
@@ -57,6 +58,7 @@ http {
 	server {
 		listen 80 default_server;
 		return 444;
+		internal;
 	}
 }"""
 
@@ -76,7 +78,53 @@ nginx_expected = {
         'sendfile': 'off',
         'server': {
             'listen': '80 default_server',
-            'return': '444'
+            'return': '444',
+            'internal': True
+        }
+    },
+    'worker_processes': '2',
+    'worker_rlimit_nofile': '30000'
+}
+
+nginx_to_string_expected_false = """events {
+	accept_mutex off;
+	worker_connections 10000;
+}
+http {
+	access_log /var/log/nginx/access.log upstream_time;
+	default_type json;
+	error_log /var/log/nginx/error.log;
+	include /etc/nginx/conf.d/*.conf;
+	include mime.types;
+	include /etc/nginx/sites_enabled/*;
+	keepalive_timeout 65;
+	sendfile off;
+	server {
+		listen 80 default_server;
+		return 444;
+	}
+}
+worker_processes 2;
+worker_rlimit_nofile 30000;"""
+
+nginx_expected_false = {
+    'events': {
+        'accept_mutex': 'off', 'worker_connections': '10000'
+    },
+    'http': {
+        'access_log': '/var/log/nginx/access.log upstream_time',
+        'default_type': 'json',
+        'error_log': '/var/log/nginx/error.log',
+        'include': [
+            '/etc/nginx/conf.d/*.conf',
+            'mime.types',
+            '/etc/nginx/sites_enabled/*' ],
+        'keepalive_timeout': '65',
+        'sendfile': 'off',
+        'server': {
+            'listen': '80 default_server',
+            'return': '444',
+            'internal': False 
         }
     },
     'worker_processes': '2',
@@ -100,6 +148,10 @@ class Test_chibi_nginx( unittest.TestCase ):
         result = to_string( data )
         self.assertEqual( result, nginx_to_string_expected )
 
+    def test_to_string_should_work_false(self):
+        result = to_string( nginx_expected_false )
+        self.assertEqual( result, nginx_to_string_expected_false )
+
 
 class Test_chibi_nginx_file( TestCase ):
     def setUp( self ):
@@ -122,7 +174,7 @@ class Test_chibi_nginx_file( TestCase ):
                 'keepalive_timeout': '65',
                 'sendfile': 'off',
                 'server': {
-                    'listen': '80 default_server', 'return': '444'
+                    'listen': '80 default_server', 'return': '444', 'internal': True
                 }
             },
             'worker_processes': '2',
