@@ -60,5 +60,5 @@ def clean_value( content ):
         result = content[0]
         result = result.rstrip( ';' )
     else:
-        raise NotImplementedError()
+        return True
     return result
