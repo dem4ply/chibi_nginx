@@ -51,7 +51,6 @@ def parse_internal( content_iter ):
             content = filter( bool, content )
             content = map( str.strip, content )
             content = list( content )
-            print(content)
             result[ content[0].rstrip( ';' ) ] = clean_value( content[1:] )
     return result
 
