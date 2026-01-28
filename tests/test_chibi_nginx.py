@@ -124,7 +124,7 @@ nginx_expected_false = {
         'server': {
             'listen': '80 default_server',
             'return': '444',
-            'internal': False 
+            'internal': False
         }
     },
     'worker_processes': '2',
@@ -174,7 +174,8 @@ class Test_chibi_nginx_file( TestCase ):
                 'keepalive_timeout': '65',
                 'sendfile': 'off',
                 'server': {
-                    'listen': '80 default_server', 'return': '444', 'internal': True
+                    'listen': '80 default_server', 'return': '444',
+                    'internal': True
                 }
             },
             'worker_processes': '2',
